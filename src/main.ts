@@ -14,7 +14,7 @@ export type ComponentBase = {
 const print = async (component: ComponentBase, id) => {
   const app = document.getElementById('app');
   if (app) app.innerHTML = await component.render(id);
-  if (component.afterRender) component.afterRender(id)
+  if (component.afterRender) await component.afterRender(id)
 }
 
 router.on({

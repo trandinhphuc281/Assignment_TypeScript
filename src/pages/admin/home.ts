@@ -1,7 +1,7 @@
 import Header from "../../components/admin/header";
 import Sidebar from "../../components/admin/sidebar";
 import Products from "../../model/products";
-import { getAll } from "../../api/product";
+import { get, getAll, update } from "../../api/product";
 
 const HomeAdmin = {
     render: async () => {
@@ -50,11 +50,15 @@ const HomeAdmin = {
                                         <td>
                                             <img src="${item.image}" class="w-[100px] h-[100px]" alt="">   
                                         </td>
-                                        <td>${item.originalPrice.toLocaleString('it-IT', { style: 'currency', currency: 'VND' })}</td>
-                                        <td>
-                                            <a href="">
-                                                <i class="fa-solid fa-toggle-on fa-xl text-green-600 fa-2x"></i>
-                                            </a>
+                                        <td>${item.originalPrice}</td>
+                                        <td class="flex items-center justify-center">
+                                            <button>
+                                                <i class="fa-solid fa-toggle-off text-green-600 fa-2x text-[30px] block leading-[100px] " data-id="${item.id}" id="off" ></i>
+                                            </button>
+                                            <button >
+                                                <i class="fa-solid fa-toggle-on fa-xl text-green-600 text-[30px] block leading-[100px] fa-2x hidden" data-id="${item.id}" id="on" ></i>
+                                            </button>
+                                           
                                         </td>
                                         <td>
                                             <a href="/admin/product-edit/${item.id}" data-navigo>
@@ -69,6 +73,34 @@ const HomeAdmin = {
                 </div>
             </div>
         `
+    },
+    afterRender: async () => {
+        const offs = document.querySelectorAll("#off")
+        const ons = document.querySelectorAll("#on")
+
+        offs.forEach((off: any, index: any) => {
+            off.addEventListener('click', async function () {
+                this.classList.add("hidden")
+                ons[index].classList.remove("hidden")
+
+                const id = this.getAttribute("data-id")
+                const { data: newData } = await get(id)
+                newData.isHidden = false
+                update(newData)
+            })
+        })
+        ons.forEach((on: any, index: any) => {
+            on.addEventListener('click', async function () {
+                this.classList.add("hidden")
+                offs[index].classList.remove("hidden")
+
+                const id = this.getAttribute("data-id")
+                const { data: newData } = await get(id)
+                newData.isHidden = true
+                update(newData)
+
+            })
+        })
     }
 }
 

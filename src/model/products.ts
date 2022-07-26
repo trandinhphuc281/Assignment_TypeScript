@@ -1,4 +1,5 @@
 class Products {
+  id: number;
   name: string;
   originalPrice: number;
   image: string;
@@ -8,6 +9,7 @@ class Products {
   description?: string;
   shortDescription?: string;
   constructor(
+    id: number,
     name: string,
     originalPrice: number,
     image: string,
@@ -17,6 +19,7 @@ class Products {
     description?: string,
     shortDescription?: string
   ) {
+    this.id = id;
     this.name = name;
     this.originalPrice = originalPrice;
     this.image = image;

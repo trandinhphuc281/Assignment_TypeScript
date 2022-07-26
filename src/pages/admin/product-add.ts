@@ -27,6 +27,7 @@ const ProductAdd = {
                                 <span>Mô tả ngắn:</span>
                                 <form action="">
                                     <textarea name="" id="shortDescription" class="w-full"></textarea>
+                                    <p id="thongbaomtn"  class="thongbaoloi"></p>
                                 </form>
                             </div>
                         </div>
@@ -38,15 +39,18 @@ const ProductAdd = {
                             <div class="m-5">
                                 <label for="">Tên sản phẩm:</label>
                                 <input type="text" id="name" class="w-[690px] h-[36px]" style="border:1px solid #E1E5EB;" required>
-                            </div>
+                                <p id="thongbao1"  class="thongbaoloi"></p>
+                                </div>
                             <div class="flex">
                                 <div class="ml-5">
                                     <label for="">Giá gốc:</label>
                                     <input type="text" id="originalPrice" class="w-[335px] h-[36px]" style="border:1px solid #E1E5EB;" required>
-                                </div>
+                                    <p id="thongbaogia"  class="thongbaoloi"></p>
+                                    </div>
                                 <div class="ml-5">
                                     <label for="">Giá khuyến mãi:</label>
                                     <input type="text" id="saleOffPrice" class="w-[335px] h-[36px]" style="border:1px solid #E1E5EB;" required>
+                                    <p id="thongbaokm"  class="thongbaoloi"></p>
                                 </div>
                             </div>
                             <div class="m-5">
@@ -61,11 +65,13 @@ const ProductAdd = {
                             <div class="m-5">
                                 <label for="">Đặc điểm nổi bật:</label>
                                 <input type="text" id="feature" class="w-[690px] h-[100px]" style="border:1px solid #E1E5EB;" required>
+                                <p id="thongbaonb"  class="thongbaoloi"></p>
                             </div>
                             <div class="m-5">
                                 <label for="">Mô tả dài:</label>
                                 <textarea name="" id="description" class="w-[690px] h-[80px]" style="border:1px solid #E1E5EB;"></textarea>
-                            </div>
+                                <p id="thongbaomt"  class="thongbaoloi"></p>
+                                </div>
                             <button id="add-products" class="p-3 bg-green-500 text-white rounded-xl mb-4 ml-5">Thêm mới</button>
                         </form>
                         </div>
@@ -91,6 +97,71 @@ const ProductAdd = {
             const description = document.getElementById('description')?.value;
             const shortDescription = document.getElementById('shortDescription')?.value;
             const product = new Products(name, originalPrice, image, saleOffPrice, category, feature, description, shortDescription);
+            //validate
+            const thongbao1 = document.getElementById("thongbao1")
+            const thongbaogia = document.getElementById("thongbaogia")
+            const thongbaonb = document.getElementById("thongbaonb")
+            const thongbaomt = document.getElementById("thongbaomt")
+            const thongbaomtn = document.getElementById("thongbaomtn")
+            const thongbaokm = document.getElementById("thongbaokm")
+
+
+            if (name.length < 5) {
+                document.getElementById("name").style.border = "1px solid red"
+                thongbao1.innerHTML = "Tên sản phẩm phải tối thiểu 5 kí tự";
+                return false
+            } else {
+                document.getElementById("name").style.border = ""
+                thongbao1.innerHTML = "";
+            }
+
+            if (originalPrice == "") {
+                document.getElementById("originalPrice").style.border = "1px solid red"
+                thongbaogia.innerHTML = "Bạn không được để trống giá";
+                return false
+            } else {
+                document.getElementById("originalPrice").style.border = ""
+                thongbaogia.innerHTML = "";
+            }
+
+            if (saleOffPrice == "") {
+                document.getElementById("saleOffPrice").style.border = "1px solid red"
+                thongbaokm.innerHTML = "Bạn không được để trống giá";
+                return false
+            } else {
+                document.getElementById("saleOffPrice").style.border = ""
+                thongbaokm.innerHTML = "";
+            }
+
+            if (feature.length < 5) {
+                document.getElementById("feature").style.border = "1px solid red"
+                thongbaonb.innerHTML = "Phần nổi bật phải tối thiểu 5 kí tự";
+                return false
+            } else {
+                document.getElementById("feature").style.border = ""
+                thongbaonb.innerHTML = "";
+            }
+
+            if (description.length < 5) {
+                document.getElementById("description").style.border = "1px solid red"
+                thongbaomt.innerHTML = "Phần mô tả phải tối thiểu 5 kí tự";
+                return false
+            } else {
+                document.getElementById("description").style.border = ""
+                thongbaomt.innerHTML = "";
+            }
+
+
+            if (shortDescription.length < 5) {
+                document.getElementById("shortDescription").style.border = "1px solid red"
+                thongbaomtn.innerHTML = "Phần mô tả ngắn phải tối thiểu 5 kí tự";
+                return false
+            } else {
+                document.getElementById("shortDescription").style.border = ""
+                thongbaomtn.innerHTML = "";
+            }
+
+
             try {
                 const data = await add(product)
                 alert('Thêm mới thành công')
@@ -100,6 +171,7 @@ const ProductAdd = {
             }
 
         })
+
         inputFile?.addEventListener('change', async (e) => {
             const file = e.target.files[0]
             const reader = new FileReader()
